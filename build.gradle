@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.hse.jade.sample'
+version '1.0.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.reflections:reflections:0.10.2'
+    implementation files('libs/jade.jar')
+}
