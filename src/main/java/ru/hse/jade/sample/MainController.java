@@ -41,38 +41,42 @@ class MainController {
         try {
             for (Class<?> clazz : allClasses) {
                 if (Agent.class.isAssignableFrom(clazz)) {
-                    final JadeAgent jadeAgent = clazz.getAnnotation(JadeAgent.class);
-
-                    if (jadeAgent.number() <= 0) {
-                        throw new IllegalStateException(MessageFormat.format(
-                                "Number of agent {0} is less then 1. Real number is {1}",
-                                clazz.getName(),
-                                jadeAgent.number()
-                        ));
-                    }
-
-                    final String agentName =
-                            !Objects.equals(jadeAgent.value(), "")
-                                    ? jadeAgent.value()
-                                    : clazz.getSimpleName();
-
-                    if (jadeAgent.number() == 1) {
-                        createAgent(clazz, agentName).start();
-                    } else {
-                        for (int i = 0; i < jadeAgent.number(); ++i) {
-                            createAgent(
-                                    clazz,
-                                    MessageFormat.format(
-                                            "{0}{1}",
-                                            agentName,
-                                            i
-                                    )).start();
-                        }
-                    }
+                    configureAgent(clazz);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void configureAgent(Class<?> clazz) throws StaleProxyException {
+        final JadeAgent jadeAgent = clazz.getAnnotation(JadeAgent.class);
+
+        if (jadeAgent.number() <= 0) {
+            throw new IllegalStateException(MessageFormat.format(
+                    "Number of agent {0} is less then 1. Real number is {1}",
+                    clazz.getName(),
+                    jadeAgent.number()
+            ));
+        }
+
+        final String agentName =
+                !Objects.equals(jadeAgent.value(), "")
+                        ? jadeAgent.value()
+                        : clazz.getSimpleName();
+
+        if (jadeAgent.number() == 1) {
+            createAgent(clazz, agentName).start();
+        } else {
+            for (int i = 0; i < jadeAgent.number(); ++i) {
+                createAgent(
+                        clazz,
+                        MessageFormat.format(
+                                "{0}{1}",
+                                agentName,
+                                i
+                        )).start();
+            }
         }
     }
 
