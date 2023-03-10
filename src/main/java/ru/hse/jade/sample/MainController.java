@@ -36,8 +36,7 @@ class MainController {
     void initAgents(String basePackage) {
         final Reflections reflections = new Reflections(basePackage);
 
-        final Set<Class<?>> allClasses =
-                reflections.getTypesAnnotatedWith(JadeAgent.class);
+        final Set<Class<?>> allClasses = reflections.getTypesAnnotatedWith(JadeAgent.class);
         try {
             for (Class<?> clazz : allClasses) {
                 if (Agent.class.isAssignableFrom(clazz)) {
