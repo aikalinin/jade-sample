@@ -9,6 +9,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import ru.hse.jade.sample.behaviour.SendMessageBehaviour;
 import ru.hse.jade.sample.configuration.JadeAgent;
+import ru.hse.jade.sample.model.Person;
 
 @JadeAgent("HelloAgent")
 public class HelloWorldAgent extends Agent {
@@ -40,13 +41,16 @@ public class HelloWorldAgent extends Agent {
                     for (int i = 0; i < result.length; ++i) {
                         testAgents[i] = result[i].getName();
                     }
-                }
-                catch (FIPAException fe) {
+                } catch (FIPAException fe) {
                     fe.printStackTrace();
                 }
                 // Perform the request
-                myAgent.addBehaviour(new SendMessageBehaviour(testAgents, "Hi tester!"));
+                myAgent.addBehaviour(new SendMessageBehaviour(testAgents,
+                        new Person(
+                                "Anton",
+                               "Kalinin"
+                        )));
             }
-        } );
+        });
     }
 }
